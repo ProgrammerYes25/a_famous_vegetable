@@ -12,7 +12,7 @@ class DBHelper:
         cur = conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS saying_tb(saying_num INT PRIMARY KEY AUTO_INCREMENT, saying TEXT, saying_from VARCHAR(50), category VARCHAR(50))")
         cur.execute("CREATE TABLE IF NOT EXISTS user_tb(user_name VARCHAR(50), saying_num INT)")
-        cur.execute("CREATE TABLE IF NOT EXISTS diary_tb(diary_date DATE, diary_saying TEXT, diary_from VARCHAR(50), diary_text TEXT)")
+        cur.execute("CREATE TABLE IF NOT EXISTS diary_tb(diary_date DATE, diary_saying INT, diary_text TEXT)")
         cur.execute("SELECT * FROM saying_tb")
         result = cur.fetchone()
         if result is None:
@@ -23,8 +23,8 @@ class DBHelper:
                 saying_from = (row[1])
                 category = (row[2])
                 cur.execute("insert into saying_tb (saying, saying_from, category) values('"+saying+"','"+saying_from+"','"+ category+"')")
-        conn.commit()
-        f.close()
+            conn.commit()
+            f.close()
         cur.close()
         conn.close()
 
