@@ -254,7 +254,7 @@ class Main:
         index = index[0]
         in_out.add_diary(get_date.get(),index, get_diary.get())
         diary_tb = in_out.get_diary_db()
-        list_listbox.insert(len(diary_tb), f'{len(diary_tb), diary_tb[len(diary_tb)-1][1]}')
+        list_listbox.insert(len(diary_tb), f'{diary_tb[len(diary_tb)-1][1]}')
         list_listbox.pack()
         self.open_frame(frame)#실행
 
