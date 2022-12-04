@@ -7,16 +7,16 @@ class Main:
         # db 생성
         self.get_index = (0,[])
         in_out = inOutputClass()
-
+        self.get_diary_in_db = None
         # 윈도우 생성
-        root = tk.Tk()
-        root.title("명의 나물")
-        root.geometry("300x500")
-        root.resizable(False, False)
+        self.root = tk.Tk()
+        self.root.title("명의 나물")
+        self.root.geometry("300x500")
+        self.root.resizable(False, False)
 
 
         # main_frame 구성
-        main_frame = tk.Frame(root)
+        main_frame = tk.Frame(self.root)
         main_frame.grid(row=0,column=0, sticky="nsew")
         # main_frame 구성 - 페이지 이름
         main_page_name = tk.Label(main_frame, padx=20, pady=15, text="명의 나물", font="함초롬돋움")
@@ -44,7 +44,7 @@ class Main:
         main_diary_btn.grid(row=0, column=3)
 
         # list_frame 구성
-        list_frame = tk.Frame(root)
+        list_frame = tk.Frame(self.root)
         list_frame.grid(row=0,column=0, sticky="nsew")
         # list_frame 구성 - 페이지 이름
         list_page_name = tk.Label(list_frame, padx=20, pady=15, text="명의 메뉴판", font="함초롬돋움")
@@ -75,7 +75,7 @@ class Main:
         list_diary_btn.grid(row=0, column=3)
 
         # diary_frame 구성
-        diary_frame = tk.Frame(root)
+        diary_frame = tk.Frame(self.root)
         diary_frame.grid(row=0, column=0, sticky="nsew")
         diary_page_name = tk.Label(diary_frame,padx=20,pady=15,text="명의 식탁", font="함초롬돋움")
         diary_page_name.pack(anchor="nw")
@@ -85,10 +85,10 @@ class Main:
         if diary_tb==None:
              diary_list_listbox.insert(0,"일기가 없습니다.")
         for i in range(len(diary_tb)):
-            diary_list_listbox.insert(i, f'{diary_tb[i][0]}')
+            diary_list_listbox.insert(i, f'{diary_tb[i][1]}')
         diary_menu_frame = tk.Frame(diary_frame)
         diary_menu_btn = tk.Button(diary_menu_frame, width=13, height=2, text="일기보기", fg="#004003", bg="#A4E1B2",
-                                        command=lambda: [self.open_frame(add_frame)])
+                                        command=lambda: [self.open_frame_diary_view(in_out, diary_list_listbox, list_frame, main_frame)])
         diary_menu_btn.grid(row=0, column=1)
         diary_menu_frame.pack()
         diary_list_listbox.pack()
@@ -103,7 +103,7 @@ class Main:
         diary_diary_btn.grid(row=0, column=3)
 
         # add_frame 구성
-        add_frame = tk.Frame(root)
+        add_frame = tk.Frame(self.root)
         add_frame.grid(row=0, column=0, sticky="nsew")
         # list_frame 구성 - 페이지 이름
         add_page_name = tk.Label(add_frame, padx=20, pady=15, text="좋아하는 명언 추가하기", font="함초롬돋움")
@@ -124,7 +124,7 @@ class Main:
         input_btn.grid(row=4, column=1)
 
         # add_frame 구성
-        add_frame = tk.Frame(root)
+        add_frame = tk.Frame(self.root)
         add_frame.grid(row=0, column=0, sticky="nsew")
         # list_frame 구성 - 페이지 이름
         add_page_name = tk.Label(add_frame, padx=20, pady=15, text="좋아하는 명언 추가하기", font="함초롬돋움")
@@ -141,11 +141,11 @@ class Main:
         saying.grid(row=2, column=1)
         get_saying = tk.Entry(entry2_frame, width=40)
         get_saying.grid(row=3, column=1)
-        input_btn = tk.Button(entry2_frame, text="등록", width=40,command=lambda: self.input_saying(in_out, list_listbox, list_frame, get_saying, get_saying_name))
+        input_btn = tk.Button(entry2_frame, text="등록", width=40,command=lambda: self.input_saying1(in_out, list_listbox, list_frame, get_saying, get_saying_name))
         input_btn.grid(row=4, column=1)
 
         # add_frame2 구성
-        add_frame2 = tk.Frame(root)
+        add_frame2 = tk.Frame(self.root)
         add_frame2.grid(row=0, column=0, sticky="nsew")
         # add_frame2 구성 - 페이지 이름
         add_page_name2 = tk.Label(add_frame2, padx=20, pady=15, text="좋아하는 명언 추가하기", font="함초롬돋움")
@@ -162,12 +162,12 @@ class Main:
         saying2.grid(row=2, column=1)
         get_saying2 = tk.Entry(entry4_frame, width=40)
         get_saying2.grid(row=3, column=1)
-        input_btn2 = tk.Button(entry4_frame, text="등록", width=40, command=lambda: self.input_saying2(in_out, list_frame, get_saying2, get_saying_name2))
+        input_btn2 = tk.Button(entry4_frame, text="등록", width=40, command=lambda: [self.input_saying2(in_out, list_listbox, list_frame, get_saying2, get_saying_name2)])
         input_btn2.grid(row=4, column=1)
 
 
         # diary_add_frame 구성
-        diary_add_frame = tk.Frame(root)
+        diary_add_frame = tk.Frame(self.root)
         diary_add_frame.grid(row=0, column=0, sticky="nsew")
         # diary_add_frame 구성 - 페이지 이름
         diary_page_name = tk.Label(diary_add_frame, padx=20, pady=15, text="일기 추가하기", font="함초롬돋움")
@@ -188,8 +188,12 @@ class Main:
                                command=lambda: self.input_diary(in_out, diary_list_listbox, list_frame, get_date, get_diary))
         input_diary_btn.grid(row=4, column=1)
 
+
+        # diary_view 구성
+
+
         self.open_frame(main_frame)
-        root.mainloop()
+        self.root.mainloop()
 
     def open_frame(self, frame):
         #프레임 전환
@@ -198,16 +202,48 @@ class Main:
         #프레임 전환
         self.get_index = list_listbox.curselection()
         frame.tkraise()
+    def open_frame_diary_view(self, in_out, list_listbox, list_frame, main_frame):
+        #프레임 전환
+        cho = list(list_listbox.curselection())
+        c = cho[0]
+        get_diary_in_db = in_out.get_diary_view(c+1)
+        # diary_view 구성
+        diary_view_frame = tk.Frame(self.root)
+        diary_view_frame.grid(row=0, column=0, sticky="nsew")
+        # diary_view 구성 - 페이지 이름
+        in_text = str(get_diary_in_db[0][1]) + "-일기"
+        diary_view_page_name = tk.Label(diary_view_frame, text=in_text, padx=20, pady=15, font="함초롬돋움")
+        diary_view_page_name.pack(anchor="nw")
+        c = get_diary_in_db[0][2]
+        say_text = in_out.get_saying_view(c+1)
+        in_text = "명언 : "+say_text[0][1]
+        diary_view_frame2 = tk.Frame(diary_view_frame, padx=5)
+        diary_view_frame2.pack()
+        diary_view_saying = tk.Label(diary_view_frame2, text=in_text)
+        diary_view_saying.grid(row=0, column=1)
+        in_text = "일기 : "+get_diary_in_db[0][3]
+        diary_text_view = tk.Label(diary_view_frame2, text=in_text)
+        diary_text_view.grid(row=1, column=1)
+
+        diary_btn_frame_view = tk.Frame(diary_view_frame)
+        diary_btn_frame_view.pack()
+        diary_list_btn_view = tk.Button(diary_btn_frame_view, text="메뉴판", fg="#004003", width=13, height=4, bg="#88AE89", command=lambda:[self.open_frame(list_frame)])
+        diary_list_btn_view.grid(row=0, column=1)
+        diary_home_btn_view = tk.Button(diary_btn_frame_view, text="나물", fg="#004003", width=13, height=4, bg="#88AE89", command=lambda:[self.open_frame(main_frame)])
+        diary_home_btn_view.grid(row=0, column=2)
+        diary_diary_btn_view = tk.Button(diary_btn_frame_view, text="식탁", fg="#88AE89", width=13, height=4, bg="#004003")
+        diary_diary_btn_view.grid(row=0, column=3)
+        diary_view_frame.tkraise()
 
     def input_saying1(self, in_out, list_listbox, frame, get_saying, get_saying_name):
-        in_out.add_saying(get_saying.get(), get_saying_name.get(), "명언")
+        in_out.add_saying(get_saying_name.get(),get_saying.get(), "명언")
         saying_tb = in_out.get_db()
         list_listbox.insert(len(saying_tb)-1, f'{saying_tb[len(saying_tb)-1][0]}. {saying_tb[len(saying_tb)-1][1]} - {saying_tb[len(saying_tb)-1][2]}')
         list_listbox.pack()
         self.open_frame(frame)
 
     def input_saying2(self, in_out, list_listbox, frame, get_saying, get_saying_name):
-        in_out.add_saying(get_saying.get(), get_saying_name.get(), "명대사&가사")
+        in_out.add_saying(get_saying_name.get(),get_saying.get(),  "명대사&가사")
         saying_tb = in_out.get_db()
         list_listbox.insert(len(saying_tb)+1, f'{saying_tb[len(saying_tb)-1][0]}. {saying_tb[len(saying_tb)-1][1]} - {saying_tb[len(saying_tb)-1][2]}')
         list_listbox.pack()
@@ -218,7 +254,9 @@ class Main:
         index = index[0]
         in_out.add_diary(get_date.get(),index, get_diary.get())
         diary_tb = in_out.get_diary_db()
-        list_listbox.insert(len(diary_tb)-1, f'{len(diary_tb), diary_tb[len(diary_tb)-1][0]}')
+        list_listbox.insert(len(diary_tb), f'{len(diary_tb), diary_tb[len(diary_tb)-1][1]}')
         list_listbox.pack()
         self.open_frame(frame)#실행
+
+
 Main()
