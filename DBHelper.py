@@ -35,5 +35,27 @@ class DBHelper:
         cur = conn.cursor()
         cur.execute("SELECT * FROM saying_tb")
         return cur.fetchall()
+    def get_diary_tb(self):
+        conn = p.connect(host='localhost', user='root', passwd='mirim', database='famous_vegetables_db', charset='utf8')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM diary_tb")
+        return cur.fetchall()
+    def get_diary_view(self):
+        conn = p.connect(host='localhost', user='root', passwd='mirim', database='famous_vegetables_db', charset='utf8')
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM diary_tb ")
+        return cur.fetchall()
+    def insert_saying_tb(self, name_saying, saying,  category):
+        conn = p.connect(host='localhost', user='root', passwd='mirim', database='famous_vegetables_db', charset='utf8')
+        cur = conn.cursor()
+        cur.execute("insert into saying_tb (saying, saying_from, category) values('" + saying + "','" + name_saying + "','" + category + "')")
+        conn.commit()
+
+    def insert_diary_tb(self, get_date, index, get_diary):
+        conn = p.connect(host='localhost', user='root', passwd='mirim', database='famous_vegetables_db', charset='utf8')
+        cur = conn.cursor()
+        cur.execute("insert into diary_tb (diary_date, diary_saying, diary_text) values(%s, %s, %s)",  (get_date, index, get_diary))
+        conn.commit()
+
 if __name__ == '__main__':
     db = DBHelper()
